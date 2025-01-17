@@ -1,7 +1,10 @@
 body,
 div,
 p,
-span {
+span,
+h1,
+h2,
+h3 {
   display: flex;
   margin: 0;
   padding: 0;

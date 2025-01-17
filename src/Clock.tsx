@@ -29,11 +29,11 @@ function segmentsForDigit(digit: number): number[] {
 
 type DigitProps = {
     value: number
+    digitColor: string;
 }
-function Digit({ value }: DigitProps) {
+function Digit({ value, digitColor }: DigitProps) {
     const illuminatedSegments = segmentsForDigit(value)
 
-    const digitColor = "red";
     const disabledDigitColor = "rgba(255,255,255,0.15)"
 
     const illuminatedDigitStyle = `4px solid ${digitColor}`
@@ -58,6 +58,7 @@ function Digit({ value }: DigitProps) {
                 <div style={{
                     width: "100%",
                     borderLeft: illuminatedSegments.includes(1) ? illuminatedDigitStyle : disabledDigitStyle,
+
                 }}></div>
                 <div style={{
                     borderRight: illuminatedSegments.includes(2) ? illuminatedDigitStyle : disabledDigitStyle,
@@ -91,8 +92,10 @@ function Digit({ value }: DigitProps) {
 }
 
 
-
-function Separator() {
+type SeparatorProps = {
+    digitColor: string;
+}
+function Separator({ digitColor }: SeparatorProps) {
     return (
         <span style={{
             fontSize: 80,
@@ -100,7 +103,7 @@ function Separator() {
             width: 30,
             position: 'relative',
             left: -5,
-            color: 'red'
+            color: digitColor
         }}>:</span>
     )
 }
@@ -115,6 +118,8 @@ export default function Clock() {
     const hours = digits(now.getHours())
     const minutes = digits(now.getMinutes())
     const seconds = digits(now.getSeconds())
+
+    const color = "orange"
 
     React.useEffect(() => {
         let timer: number = 0;
@@ -132,23 +137,30 @@ export default function Clock() {
     })
 
     return (
-        <div style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            backgroundColor: 'black',
-            color: 'white',
-            width: 'min-content',
-            padding: "15px 10px",
-            gap: 8,
-            border: "8px solid rgb(160,160,160)",
-            borderRadius: 6,
-            flexWrap: 'nowrap'
-        }}>
-            {hours.map(digit => (<Digit value={digit} />))}
-            <Separator />
-            {minutes.map(digit => (<Digit value={digit} />))}
-            <Separator />
-            {seconds.map(digit => (<Digit value={digit} />))}
+        <div>
+            <h2 style={{
+                fontSize: 16,
+                fontFamily: 'monospace',
+                marginBottom: 5
+            }}>Your local time</h2>
+            <div style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                backgroundColor: 'black',
+                color: 'white',
+                width: 'min-content',
+                padding: "15px 10px",
+                gap: 8,
+                border: "8px solid rgb(160,160,160)",
+                borderRadius: 6,
+                flexWrap: 'nowrap'
+            }}>
+                {hours.map(digit => (<Digit digitColor={color} value={digit} />))}
+                <Separator digitColor={color} />
+                {minutes.map(digit => (<Digit digitColor={color} value={digit} />))}
+                <Separator digitColor={color} />
+                {seconds.map(digit => (<Digit digitColor={color} value={digit} />))}
+            </div>
         </div>
     )
 }
