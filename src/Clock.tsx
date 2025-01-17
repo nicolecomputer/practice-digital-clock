@@ -34,15 +34,15 @@ function Digit({ value }: DigitProps) {
     const illuminatedSegments = segmentsForDigit(value)
 
     const digitColor = "red";
-    const disabledDigitColor = "rgba(255,255,255,0.2)"
+    const disabledDigitColor = "rgba(255,255,255,0.15)"
 
-    const illuminatedDigitStyle = `10px solid ${digitColor}`
-    const disabledDigitStyle = `10px solid ${disabledDigitColor}`
+    const illuminatedDigitStyle = `4px solid ${digitColor}`
+    const disabledDigitStyle = `4px solid ${disabledDigitColor}`
+
+    const height = 30
     return (
         <span style={{
-            fontSize: 80,
-            fontFamily: 'monospace',
-            width: 55,
+            width: 40,
             flexDirection: 'column',
             gap: 2
         }}>
@@ -51,7 +51,7 @@ function Digit({ value }: DigitProps) {
                 width: "100%",
             }}></div>
             <div style={{
-                height: 35,
+                height: height,
                 justifyContent: 'space-between',
                 flexDirection: 'row'
             }}>
@@ -69,7 +69,7 @@ function Digit({ value }: DigitProps) {
                 width: "100%",
             }}></div>
             <div style={{
-                height: 35,
+                height: height,
                 justifyContent: 'space-between',
                 flexDirection: 'row'
             }}>
@@ -140,8 +140,9 @@ export default function Clock() {
             width: 'min-content',
             padding: "15px 10px",
             gap: 8,
-            border: "4px solid rgb(160,160,160)",
+            border: "8px solid rgb(160,160,160)",
             borderRadius: 6,
+            flexWrap: 'nowrap'
         }}>
             {hours.map(digit => (<Digit value={digit} />))}
             <Separator />
