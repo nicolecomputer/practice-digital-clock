@@ -33,7 +33,7 @@ type DigitProps = {
 function Digit({ value }: DigitProps) {
     const illuminatedSegments = segmentsForDigit(value)
 
-    const digitColor = "green";
+    const digitColor = "red";
     const disabledDigitColor = "rgba(255,255,255,0.2)"
 
     const illuminatedDigitStyle = `10px solid ${digitColor}`
@@ -99,7 +99,8 @@ function Separator() {
             fontFamily: 'monospace',
             width: 30,
             position: 'relative',
-            left: -5
+            left: -5,
+            color: 'red'
         }}>:</span>
     )
 }
