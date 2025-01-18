@@ -96,28 +96,36 @@ type SeparatorProps = {
     digitColor: string;
 }
 function Separator({ digitColor }: SeparatorProps) {
+    const size = 8
     return (
-        <span style={{
-            fontSize: 80,
-            fontFamily: 'monospace',
-            width: 30,
-            position: 'relative',
-            left: -5,
-            color: digitColor
-        }}>:</span>
+        <div style={{
+            height: "100%",
+            justifyContent: 'space-around',
+            padding: "0 6px"
+        }}>
+            <div style={{
+                width: size,
+                height: size,
+                backgroundColor: digitColor
+            }}></div>
+            <div style={{
+                width: size,
+                height: size,
+                backgroundColor: digitColor
+            }}></div>
+        </div>
     )
 }
 
-function digits(value: number): number[] {
-    return value.toString().padStart(2, "0").split("").map(x => parseInt(x))
+type ClockProps = {
+    label: string
+    timezone: string
 }
-
-export default function Clock() {
-    const [now, setCurrentTime] = React.useState(new Date())
-
-    const hours = digits(now.getHours())
-    const minutes = digits(now.getMinutes())
-    const seconds = digits(now.getSeconds())
+function currentTime(timezone: string): string {
+    return new Date().toLocaleString("en-US", { timeZone: timezone, hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: true }).replace(/\s[AP]M/, '')
+}
+export default function Clock({ label, timezone }: ClockProps) {
+    const [now, setCurrentTime] = React.useState(currentTime(timezone))
 
     const color = "orange"
 
@@ -125,8 +133,8 @@ export default function Clock() {
         let timer: number = 0;
 
         function updateTime() {
-            setCurrentTime(new Date());
-            timer = setTimeout(updateTime, 100)
+            setCurrentTime(currentTime(timezone));
+            timer = setTimeout(updateTime, 500)
         }
 
         updateTime()
@@ -142,24 +150,28 @@ export default function Clock() {
                 fontSize: 16,
                 fontFamily: 'monospace',
                 marginBottom: 5
-            }}>Your local time</h2>
-            <div style={{
-                flexDirection: 'row',
-                alignItems: 'center',
-                backgroundColor: 'black',
-                color: 'white',
-                width: 'min-content',
-                padding: "15px 10px",
-                gap: 8,
-                border: "8px solid rgb(160,160,160)",
-                borderRadius: 6,
-                flexWrap: 'nowrap'
-            }}>
-                {hours.map(digit => (<Digit digitColor={color} value={digit} />))}
-                <Separator digitColor={color} />
-                {minutes.map(digit => (<Digit digitColor={color} value={digit} />))}
-                <Separator digitColor={color} />
-                {seconds.map(digit => (<Digit digitColor={color} value={digit} />))}
+            }}>{label}</h2>
+            <div
+                className='clock-device'
+                style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    backgroundColor: 'black',
+                    color: 'white',
+                    width: 'min-content',
+                    padding: "15px 10px",
+                    gap: 8,
+                    border: "8px solid rgb(160,160,160)",
+                    borderRadius: 6,
+                    flexWrap: 'nowrap'
+                }}>
+                {now.split('').map((digit, index) => {
+                    if (digit === ":") {
+                        return <Separator digitColor={color} key={`separator-${index}`} />
+                    }
+
+                    return <Digit digitColor={color} value={parseInt(digit)} key={`digit-${index}`} />
+                })}
             </div>
         </div>
     )

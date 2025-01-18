@@ -16,3 +16,7 @@ body {
   height: 100%;
   background-color: bisque;
 }
+
+.clock-device:hover {
+  box-shadow: 0 0 50px rgba(255, 131, 97, 0.9);
+}
